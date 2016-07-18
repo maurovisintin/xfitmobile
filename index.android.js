@@ -12,17 +12,15 @@ import {
   View
 } from 'react-native';
 
-class Xfit extends Component {
-  render() {
+var LoginScreen = require('./app/screens/login/login1');
+
+var Xfit = React.createClass({
+  render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to XFit!
-        </Text>
-      </View>
+        <LoginScreen />
     );
   }
-}
+});
 
 const styles = StyleSheet.create({
   container: {
