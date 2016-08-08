@@ -1,0 +1,4 @@
+export const ROUTE_IDS = {
+    SKILL_DETAIL : 'SKILL_DETAIL',
+    SKILL_LIST : 'SKILL_LIST'
+}

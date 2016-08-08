@@ -1,28 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-'use strict';
-
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { AppRegistry } from 'react-native';
 
-var LoginScreen = require('./app/screens/login/login1');
+import Root from './app/containers/Root'
 
-var Xfit = React.createClass({
-  render: function() {
+class Xfit extends Component {
+  render() {
     return (
-        <LoginScreen />
+      <Root />
     );
   }
-});
-
+}
 
 AppRegistry.registerComponent('Xfit', () => Xfit);

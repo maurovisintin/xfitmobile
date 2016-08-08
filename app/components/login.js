@@ -1,58 +1,64 @@
-'use strict';
-
-import React from 'react';
-import ReactNative from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as Animatable from 'react-native-animatable';
-import {create} from 'apisauce'
-
-// define the api
-const api = create({
-  baseURL: 'https://xfit-be.herokuapp.com/v1',
-  headers: {'Accept': 'application/json'}
-})
-
-var Home = require('../home/home')
-
-// var React = require('react-native');
-var Dimensions = require('Dimensions');
-var Animated = require('Animated');
-var windowSize = Dimensions.get('window');
-
-var {
+import React, {
+  Component
+} from 'react';
+import {
   AppRegistry,
   StyleSheet,
-  View,
   Text,
+  View,
+  Modal,
+  TouchableOpacity,
+  AsyncStorage,
+  Alert,
   TextInput,
-  Image,
-  AlertIOS
-} = ReactNative;
+  Image
+} from 'react-native';
+import { connect } from 'react-redux'
 
-var Login1 = React.createClass({
-  getInitialState: function() {
-    return {
-      username: '',//onitsuka90@gmail.com',
-      password: '', //pass',
-      loggedIn: false
+import Dimensions from 'Dimensions';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+import Main from './main'
+import XfitApi from '../common/apiconfig.js'
+
+const windowSize = Dimensions.get('window');
+
+export default class Login extends Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+          username: 'onitsuka90@gmail.com',
+          password: 'pass',
+          isLogging: false,
+          loggedIn: false
+      };
+      this.getUserData = this.getUserData.bind(this)
     }
-  },
-  render: function() {
-    if (this.state.loggedIn) {
-        return (
-          <Home/>
-        );
-    } else {
+    getUserData () {
+      AsyncStorage.getItem('UserData', (err, result) => {
+          if (result) {
+              this.setState({
+                  loggedIn: true
+              })
+          }
+      })
+    }
+    componentWillMount(){
+        this.getUserData()
+    }
+    renderLoginPage(){
         return (
             <View style={styles.container}>
-                <Image style={styles.bg} source={require('./loginbg.png')} />
+                <Spinner visible={this.state.isLoading} />
+                <Image style={styles.bg} source={require('../common/img/loginbg.png')} />
                 <View style={styles.header}>
                     <Image style={styles.mark} source={{uri: '.'}} />
                 </View>
                 <View style={styles.inputs}>
                     <View style={styles.inputContainer}>
                         <Icon style={styles.inputUsername} name="user" size={20} color="#fff" />
-                        <TextInput 
+                        <TextInput
                             style={[styles.input, styles.whiteFont]}
                             onChangeText={(username) => this.setState({username})}
                             placeholder="Username"
@@ -75,46 +81,67 @@ var Login1 = React.createClass({
                         <Text style={styles.greyFont}>Forgot Password</Text>
                     </View>
                 </View>
-                <View style={styles.signin}>
-                    <Text style={styles.whiteFont}
-                        onPress={() => this.login()}>
-                        Sign In
-                    </Text>
-                </View>
+                <TouchableOpacity
+                    style={styles.signin}
+                    onPress={() => this.login()}>
+                    <Text style={styles.whiteFont}>Sign In</Text>
+                </TouchableOpacity>
                 <View style={styles.signup}>
                     <Text style={styles.greyFont}>Don't have an account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
                 </View>
             </View>
-        );
+        )
+
     }
-  },
-  login: function () {
-      api
-        .post('/login', {
-            "email": this.state.username,
-            "password": this.state.password
-        })
-        .then((response) => {
-            if(!response.data.error)
-            {
-                this.setState({
-                    loggedIn: true,
-                });
-            } else {
-                AlertIOS.alert(
-                'Attention',
-                'Wrong credentials'
-                );
-            }
-        })
-  }
-});
+    login() {
+      this.setState({
+          isLogging: true,
+      });
+        XfitApi
+          .post('/login', {
+              "email": this.state.username,
+              "password": this.state.password
+          })
+          .then((response) => {
+              this.setState({
+                  isLogging: false,
+              });
+              if(!response.data.error)
+              {
+                  AsyncStorage.setItem('UserData', JSON.stringify(response.data), (res) => { console.log(res) });
+                  this.setState({
+                      loggedIn: true,
+                  });
+              } else {
+                  AlertIOS.alert(
+                  'Attention',
+                  'Wrong credentials'
+                  );
+              }
+          })
+    }
+      render() {
+          if (this.state.loggedIn) {
+              return (
+                <Main />
+              );
+          } else {
+              return this.renderLoginPage()
+      }
+    }
+}
+
 
 var styles = StyleSheet.create({
     container: {
       flexDirection: 'column',
       flex: 1,
       backgroundColor: 'transparent'
+    },
+    centering: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 8,
     },
     bg: {
         position: 'absolute',
@@ -183,5 +210,3 @@ var styles = StyleSheet.create({
       color: '#FFF'
     }
 })
-
-module.exports = Login1;
