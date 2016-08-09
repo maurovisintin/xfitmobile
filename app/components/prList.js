@@ -18,7 +18,7 @@ export default class PRList extends Component {
         this.props.navigator.push({
             component: PRDetail,
             passProps: {
-            	data: item
+                data: item
             }
         })
     }
@@ -28,10 +28,10 @@ export default class PRList extends Component {
         } else if (this.props.dataSource.length > 0) {
             return (
                 <ListView
-                  dataSource={this.setDataSource(this.props.dataSource)}
-                  renderRow={this.renderElement}
-                  enableEmptySections={true}
-                />
+                    dataSource={this.setDataSource(this.props.dataSource)}
+                    renderRow={this.renderElement}
+                    enableEmptySections={true}
+                    />
             )
         }
         return (
@@ -41,16 +41,16 @@ export default class PRList extends Component {
         )
     }
     renderElement = (item) => {
-      return (
-          <TouchableHighlight
+        return (
+            <TouchableHighlight
                 style={styles.row}
                 underlayColor="#D0D0D0"
                 onPress={() => this.goToDetail(item)}>
                 <Text style={styles.buttonText}>
-                  {item.skill ? item.skill.name : 'no skill.. :('} - {item.value} {item.measure}
+                    {item.skill ? item.skill.name : 'no skill.. :('}: {item.value} {item.measure} il {(new Date(item.earned)).toLocaleDateString()}
                 </Text>
-          </TouchableHighlight>
-      )
+            </TouchableHighlight>
+        )
     }
     render() {
         return (
@@ -72,16 +72,16 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     row: {
-      padding: 15,
-      backgroundColor: 'white',
-      borderBottomWidth: 1 / PixelRatio.get(),
-      borderBottomColor: '#CDCDCD',
+        padding: 15,
+        backgroundColor: 'white',
+        borderBottomWidth: 1 / PixelRatio.get(),
+        borderBottomColor: '#CDCDCD',
     },
     rowText: {
-      fontSize: 17,
+        fontSize: 17,
     },
     buttonText: {
-      fontSize: 17,
-      fontWeight: '500',
+        fontSize: 17,
+        fontWeight: '500',
     },
 });

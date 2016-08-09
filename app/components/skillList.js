@@ -18,7 +18,7 @@ export default class SkillList extends Component {
         this.props.navigator.push({
             component: SkillDetail,
             passProps: {
-            	data: item
+                data: item
             }
         })
     }
@@ -28,10 +28,10 @@ export default class SkillList extends Component {
         } else if (this.props.dataSource.length > 0) {
             return (
                 <ListView
-                  dataSource={this.setDataSource(this.props.dataSource)}
-                  renderRow={this.renderElement}
-                  enableEmptySections={true}
-                />
+                    dataSource={this.setDataSource(this.props.dataSource)}
+                    renderRow={this.renderElement}
+                    enableEmptySections={true}
+                    />
             )
         }
         return (
@@ -41,15 +41,15 @@ export default class SkillList extends Component {
         )
     }
     renderElement = (item) => {
-      return (
-          <TouchableHighlight
+        return (
+            <TouchableHighlight
                 style={styles.row}
                 underlayColor="#D0D0D0">
                 <Text style={styles.buttonText}>
-                  {item.name}
+                    {item.name}
                 </Text>
-          </TouchableHighlight>
-      )
+            </TouchableHighlight>
+        )
     }
     render() {
         return (
@@ -71,16 +71,16 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     row: {
-      padding: 15,
-      backgroundColor: 'white',
-      borderBottomWidth: 1 / PixelRatio.get(),
-      borderBottomColor: '#CDCDCD',
+        padding: 15,
+        backgroundColor: 'white',
+        borderBottomWidth: 1 / PixelRatio.get(),
+        borderBottomColor: '#CDCDCD',
     },
     rowText: {
-      fontSize: 17,
+        fontSize: 17,
     },
     buttonText: {
-      fontSize: 17,
-      fontWeight: '500',
+        fontSize: 17,
+        fontWeight: '500',
     },
 });

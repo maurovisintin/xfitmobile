@@ -6,16 +6,16 @@ import {Navigator} from 'react-native'
 import PRScreen from './prScreen'
 
 class PRNavigation extends Component {
-  renderScene(route, navigator) {
-    return <route.component navigator={navigator} {...route.passProps} />
-	}
-  render() {
-    return (
-        <Navigator
-            initialRoute={{ component: PRScreen}}
-            renderScene={this.renderScene} />
-     )
-  }
+    renderScene(route, navigator) {
+        return <route.component navigator={navigator} {...route.passProps} />
+    }
+    render() {
+        return (
+            <Navigator
+                initialRoute={{ component: PRScreen}}
+                renderScene={this.renderScene} />
+        )
+    }
 }
 
 export default PRNavigation

@@ -1,17 +1,17 @@
 import React, {
-  Component
+    Component
 } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  TouchableOpacity,
-  AsyncStorage,
-  Alert,
-  TextInput,
-  Image
+    AppRegistry,
+    StyleSheet,
+    Text,
+    View,
+    Modal,
+    TouchableOpacity,
+    AsyncStorage,
+    Alert,
+    TextInput,
+    Image
 } from 'react-native';
 import { connect } from 'react-redux'
 
@@ -26,23 +26,23 @@ const windowSize = Dimensions.get('window');
 
 export default class Login extends Component {
     constructor(props) {
-      super(props)
-      this.state = {
-          username: 'onitsuka90@gmail.com',
-          password: 'pass',
-          isLogging: false,
-          loggedIn: false
-      };
-      this.getUserData = this.getUserData.bind(this)
+        super(props)
+        this.state = {
+            username: 'onitsuka90@gmail.com',
+            password: 'pass',
+            isLogging: false,
+            loggedIn: false
+        };
+        this.getUserData = this.getUserData.bind(this)
     }
     getUserData () {
-      AsyncStorage.getItem('UserData', (err, result) => {
-          if (result) {
-              this.setState({
-                  loggedIn: true
-              })
-          }
-      })
+        AsyncStorage.getItem('UserData', (err, result) => {
+            if (result) {
+                this.setState({
+                    loggedIn: true
+                })
+            }
+        })
     }
     componentWillMount(){
         this.getUserData()
@@ -64,7 +64,7 @@ export default class Login extends Component {
                             placeholder="Username"
                             placeholderTextColor="#FFF"
                             value={this.state.username}
-                        />
+                            />
                     </View>
                     <View style={styles.inputContainer}>
                         <Icon style={styles.inputPassword} name="lock" size={20} color="#fff" />
@@ -75,7 +75,7 @@ export default class Login extends Component {
                             placeholder="Password"
                             placeholderTextColor="#FFF"
                             value={this.state.password}
-                        />
+                            />
                     </View>
                     <View style={styles.forgotContainer}>
                         <Text style={styles.greyFont}>Forgot Password</Text>
@@ -94,49 +94,49 @@ export default class Login extends Component {
 
     }
     login() {
-      this.setState({
-          isLogging: true,
-      });
+        this.setState({
+            isLogging: true,
+        });
         XfitApi
-          .post('/login', {
-              "email": this.state.username,
-              "password": this.state.password
-          })
-          .then((response) => {
-              this.setState({
-                  isLogging: false,
-              });
-              if(!response.data.error)
-              {
-                  AsyncStorage.setItem('UserData', JSON.stringify(response.data), (res) => { console.log(res) });
-                  this.setState({
-                      loggedIn: true,
-                  });
-              } else {
-                  AlertIOS.alert(
-                  'Attention',
-                  'Wrong credentials'
-                  );
-              }
-          })
+        .post('/login', {
+            "email": this.state.username,
+            "password": this.state.password
+        })
+        .then((response) => {
+            this.setState({
+                isLogging: false,
+            });
+            if(!response.data.error)
+            {
+                AsyncStorage.setItem('UserData', JSON.stringify(response.data), (res) => { console.log(res) });
+                this.setState({
+                    loggedIn: true,
+                });
+            } else {
+                AlertIOS.alert(
+                    'Attention',
+                    'Wrong credentials'
+                );
+            }
+        })
     }
-      render() {
-          if (this.state.loggedIn) {
-              return (
+    render() {
+        if (this.state.loggedIn) {
+            return (
                 <Main />
-              );
-          } else {
-              return this.renderLoginPage()
-      }
+            );
+        } else {
+            return this.renderLoginPage()
+        }
     }
 }
 
 
 var styles = StyleSheet.create({
     container: {
-      flexDirection: 'column',
-      flex: 1,
-      backgroundColor: 'transparent'
+        flexDirection: 'column',
+        flex: 1,
+        backgroundColor: 'transparent'
     },
     centering: {
         alignItems: 'center',
@@ -166,9 +166,9 @@ var styles = StyleSheet.create({
         alignItems: 'center'
     },
     signup: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      flex: .15
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: .15
     },
     inputs: {
         marginTop: 10,
@@ -181,9 +181,9 @@ var styles = StyleSheet.create({
         height: 21
     },
     inputUsername: {
-      marginLeft: 15,
-      width: 20,
-      height: 20
+        marginLeft: 15,
+        width: 20,
+        height: 20
     },
     inputContainer: {
         padding: 10,
@@ -200,13 +200,13 @@ var styles = StyleSheet.create({
         fontSize: 14
     },
     forgotContainer: {
-      alignItems: 'flex-end',
-      padding: 15,
+        alignItems: 'flex-end',
+        padding: 15,
     },
     greyFont: {
-      color: '#D8D8D8'
+        color: '#D8D8D8'
     },
     whiteFont: {
-      color: '#FFF'
+        color: '#FFF'
     }
 })
